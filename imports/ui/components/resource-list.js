@@ -1,7 +1,7 @@
 import React from "react";
 
 import {List, ListItem} from 'material-ui/List';
-import ResourceIcon from "../components/resource-icon";
+import ResourceIcon from "./resource-icon";
 
 class ResourceList extends React.Component {
   _onListSelect(resource) {

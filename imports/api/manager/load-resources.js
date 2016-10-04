@@ -1,4 +1,4 @@
-import connectionManager from "../connection-manager";
+import connectionManager from "./connection-manager";
 
 // Loads resources from the TDX.
 // filter - an optional query filter to refine the returned data, e.g. {name: "my resource"}

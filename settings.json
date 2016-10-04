@@ -1,6 +1,8 @@
 {
   "public": {
     "ddpServerURL": "https://tbx.nqminds.com/",
-    "authServerURL": "https://tdx.nqminds.com"
-  }
+    "authServerURL": "https://tdx.nqminds.com",
+  	"fleetTable": "ryg8_--W0",
+	"journeysTable": ""
+	}
 }

@@ -4,9 +4,23 @@ import {Meteor} from "meteor/meteor";
 import connectionManager from "../../api/manager/connection-manager";
 import Login from "../components/login";
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import AppBar from "material-ui/AppBar";
 import IconButton from "material-ui/IconButton";
+import IconMenu from 'material-ui/IconMenu';
+import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+
+const muiTheme = getMuiTheme({
+  avatar: {
+    borderColor: null,
+  },
+  userAgent: navigator.userAgent,
+  appBar: {
+    height: 50,
+  },
+});
 
 class Layout extends React.Component{
   constructor(props) {
@@ -19,37 +33,56 @@ class Layout extends React.Component{
   _onUserPassword(user, password) {
     // Pass share credentials on to the connection manager.
     connectionManager.authorise(user, password);
-  }  
+  }
+
   _onLogout() {
     FlowRouter.go("logout");
   }
+
+  _onSettings() {
+    FlowRouter.go("settings");
+  }
+
   render() {
     var styles = {
       appBar: {
         position: "fixed"
       },
+      userAgent: navigator.userAgent,
       layoutContent: {
         padding: "68px 0px 0px 5px"
       }
     };
+
     var content;
-    var logoutButton;
+    var menuButton;
 
     // Render different content depending on whether authenticated or not.
     if (this.props.authenticated) {
       // Authenticated => render the layout content provided by the router.
       content = this.props.content();
+
       // Add a logout button to the toolbar.
-      logoutButton = <IconButton onTouchTap={this._onLogout} iconClassName="material-icons" tooltip="logout">exit_to_app</IconButton>;
+      menuButton =
+            <IconMenu
+              iconButtonElement={
+              <IconButton><MoreVertIcon /></IconButton>
+              }
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+              anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+            >
+              <MenuItem primaryText="Settings" onClick = {this._onSettings.bind(this)}/>
+              <MenuItem primaryText="Log out" onClick = {this._onLogout.bind(this)}/>
+            </IconMenu>;
     } else {
       // Not authenticated => render the login component.
       content = <Login onEnter={this._onUserPassword} />;
     }
 
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider muiTheme={muiTheme}>
         <div>
-          <AppBar style={styles.appBar} title="nqm resource explorer" showMenuIconButton={false} iconElementRight={logoutButton} />
+          <AppBar style={styles.appBar} title="NQM Fleet Management" showMenuIconButton={false} iconElementRight={menuButton} />
           <div style={styles.layoutContent}>
             {content}
           </div>

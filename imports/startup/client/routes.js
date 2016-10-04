@@ -5,7 +5,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import connectionManager from "../../api/manager/connection-manager";
 import Layout from "../../ui/layouts/layout-container";
-import Explorer from "../../api/manager/components/explorer";
+import FleetApp from "../../ui/pages/FleetApp";
+
 //import ResourceData from "../../api/manager/containers/resource-data-container";
 
 injectTapEventPlugin();
@@ -24,12 +25,11 @@ FlowRouter.triggers.enter([function(context, redirect) {
   }
 }]);
 
-
 FlowRouter.route("/", {
   name: "root",
   action: function(params, queryParams) {
-	console.log(params)
-    mount(Layout, { content: function() { return <Explorer parent={params.parent} />; } });
+            console.log(params);
+            mount(Layout, { content: function() { return <FleetApp />; } });
   }
 });
 
@@ -50,4 +50,3 @@ FlowRouter.route("/logout", {
     redirect("/");
   }]
 });
-
