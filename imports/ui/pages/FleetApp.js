@@ -1,5 +1,6 @@
 import React from "react";
 import {Meteor} from "meteor/meteor";
+import Paper from 'material-ui/Paper';
 
 import FleetDataList from "./fleet-data-container";
 
@@ -11,7 +12,9 @@ class FleetApp extends React.Component {
   render() {
     return (
       <div>
-        <FleetDataList resourceId={Meteor.settings.public.fleetTable} />
+        <Paper zDepth={1}>
+          <FleetDataList resourceId={Meteor.settings.public.fleetTable} />
+        </Paper>
       </div>
     );
   }
