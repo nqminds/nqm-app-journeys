@@ -29,9 +29,10 @@ export default class FleetData extends React.Component {
     let self = this;
 
     const list = _.map(this.props.data, function(d,i) {
-      return <ListItem
+          const avatar = 'images/'+d.Avatar;
+          return <ListItem
               key={i}
-              leftAvatar={<Avatar src="images/avatar1.png" />}
+              leftAvatar={<Avatar src={avatar} />}
               rightIconButton={
                 <IconButton onClick = {this._onSelectFleet}>
                   <FontIcon className="material-icons" color={blue500}>{self.state.defaultIconType}</FontIcon>
