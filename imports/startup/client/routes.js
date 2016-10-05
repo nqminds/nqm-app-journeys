@@ -7,17 +7,24 @@ import connectionManager from "../../api/manager/connection-manager";
 import Layout from "../../ui/layouts/layout-container";
 import FleetApp from "../../ui/pages/FleetApp";
 
-//import ResourceData from "../../api/manager/containers/resource-data-container";
+var sharedkey;
+
+if (Meteor.settings.public.sharedKeyFile)
+  sharedkey = require("../../../"+Meteor.settings.public.sharedKeyFile); 
 
 injectTapEventPlugin();
 
 // Register a trigger to be called before every route.
 FlowRouter.triggers.enter([function(context, redirect) {
+
   // If the connection manager hasn't established a DDP connection yet, do it now.
   if (!connectionManager.connected) {
     connectionManager.connect();
   }
-  // If there is an access token on the query string, use it to authenticate the connection.
+
+  if (sharedkey)
+    connectionManager.authorise(sharedkey.id, sharedkey.password);
+
   if (context.queryParams.access_token) {
     connectionManager.useToken(context.queryParams.access_token);
     // Redirect to root page after authentication.
@@ -28,7 +35,6 @@ FlowRouter.triggers.enter([function(context, redirect) {
 FlowRouter.route("/", {
   name: "root",
   action: function(params, queryParams) {
-            console.log(params);
             mount(Layout, { content: function() { return <FleetApp />; } });
   }
 });
